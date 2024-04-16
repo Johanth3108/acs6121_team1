@@ -7,6 +7,7 @@ from geometry_msgs.msg import Twist
 import roslaunch
 from std_srvs.srv import Empty
 import rospkg
+import time
 
 # Importing required module
 import subprocess
@@ -60,7 +61,7 @@ class explorer():
         self.pub.publish(Twist())
         self.ctrl_c = True
         # Save the map
-        self.save_map()
+        # self.save_map()
 
     def save_map(self):
         rospy.loginfo("Saving map...")
@@ -71,21 +72,22 @@ class explorer():
         package_path = rospack.get_path('acs6121_team1')
 
         # Define the path to the "map" folder inside your package
-        map_folder_path = package_path + '/map/map'
-        print(map_folder_path)
+        map_folder_path = package_path + '/map/map1'
+        # print(map_folder_path)
         try:
-            # save_map_service = rospy.ServiceProxy('map_msgs/SaveMap', Empty)
-            # resp = save_map_service()
-            # rospy.loginfo("Map saved successfully!")
+            time.sleep(5)
 
-            subprocess.Popen('rosrun map_server map_saver -f '+map_folder_path, shell=True)
+            subprocess.run('rosrun map_server map_saver -f '+map_folder_path, shell=True)
+            subprocess.Popen('echo test', shell=True)
+
+            rospy.logwarn("Map saved successfully to" + map_folder_path)
+            time.sleep(5)
+
         except rospy.ServiceException as e:
             rospy.logerr("Failed to save map: %s" % e)
 
 
     def main_loop(self):
-        
-
         while not self.ctrl_c:
 
             self.pub.publish(self.move) # publish the move object
