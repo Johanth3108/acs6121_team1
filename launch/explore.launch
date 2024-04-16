@@ -21,7 +21,7 @@
     <arg name="slam_methods" value="gmapping"/>
   </include>
 
-  <node pkg="map_server" type="map_saver" name="map_saver" args="-f $(find acs6121_team1)/map/mapla" output="screen" />
+  <node pkg="map_server" type="map_saver" name="map_saver" args="-f $(find acs6121_team1)/map/map" output="screen" />
 
   <!-- Launch custom node for map saving -->
   <!-- <node pkg="acs6121_team1" type="map_saver_node.py"  name="map_saver_node" respawn="false" output="screen"/> -->
