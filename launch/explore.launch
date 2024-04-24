@@ -26,7 +26,7 @@
   <!-- Launch custom node for map saving -->
   <!-- <node pkg="acs6121_team1" type="map_saver_node.py"  name="map_saver_node" respawn="false" output="screen"/> -->
 
-  <node pkg="acs6121_team1" type="explore.py" name="explorer" output="screen" />
+  <!-- <node pkg="acs6121_team1" type="explore2.py" name="explorer" output="screen" /> -->
 
 </launch>
 
