@@ -4,6 +4,9 @@
   <arg name="y_pos" default="0.0"/>
   <arg name="z_pos" default="0.0"/>
 
+  <!-- <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_simulation.launch">
+  </include> -->
+
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/turtlebot3_stage_4.world"/>
     <arg name="paused" value="false"/>
@@ -26,8 +29,8 @@
   <!-- Launch custom node for map saving -->
   <!-- <node pkg="acs6121_team1" type="map_saver_node.py"  name="map_saver_node" respawn="false" output="screen"/> -->
 
-  <!-- <node pkg="acs6121_team1" type="explore2.py" name="explorer" output="screen" /> -->
-
+  <node pkg="acs6121_team1" type="test.py" name="explorer" output="screen" />
+  
 </launch>
 
 
