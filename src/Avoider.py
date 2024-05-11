@@ -36,17 +36,13 @@ class control():
         self.min_left_dist = min(left_dist)
         self.min_right_dist = min(right_dist)
         
+        front_dist = dist[0:35]+dist[325:359]
         back_dist = dist[135:225]
         tilt_dist_left = dist[20:90]
         tilt_dist_right = dist[270:340]
         self.min_back_dist = min(back_dist)
         self.min_tilt_dist_left = min(tilt_dist_left)
         self.min_tilt_dist_right = min(tilt_dist_right)
-
-    def order_callback(self, topic_data: Float64):
-        self.wanted_z = topic_data.data
-        #print(f"wanted_z = {self.wanted_z:.3f}")  
-        #print(f"ori_z = {self.ori_z:.3f}, wanted_z = {self.wanted_z:.3f}") 
 
     def __init__(self): 
         self.node_name = "Controller" 
@@ -55,6 +51,7 @@ class control():
         sub_topic_name2 = "scan"
         # sub_topic_name3 = "move_cmd"
 
+        self.wanted_z = 0
         self.adj_side_dist = 0.2
         self.normal_speed = 0.2
         self.tilt_speed = 1
@@ -92,7 +89,6 @@ class control():
         self.pub = rospy.Publisher(pub_topic_name, Twist, queue_size=10) 
         self.sub1 = rospy.Subscriber(sub_topic_name1, Odometry, self.angle_callback)
         self.sub2 = rospy.Subscriber(sub_topic_name2, LaserScan, self.dist_callback)
-        # self.sub3 = rospy.Subscriber(sub_topic_name3, Float64, self.order_callback)
         self.rate = rospy.Rate(10) 
 
         rospy.on_shutdown(self.shutdownhook) 
@@ -101,18 +97,13 @@ class control():
 
     def shutdownhook(self): 
         print(f"Stopping the '{self.node_name}' node at: {rospy.get_time()}")
-        stop_cmd = Twist()
-        stop_cmd.linear.x = 0
-        stop_cmd.angular.z = 0
-        self.pub.publish(stop_cmd)
         self.ctrl_c = True
 
     def main_loop(self):
         while not self.ctrl_c: 
 
-            # out_angle = Float64()
             vel_cmd = Twist()
-            out_angle = 0
+            out_angle = 0.0
             self.prev_obj_loc = self.obj_loc
             #### Calculates what angle the object is from right and left
             # Left front obstacle angle detection 
@@ -226,7 +217,6 @@ class control():
             # old code from here
             print(out_angle)
             self.wanted_z = out_angle
-            # angle_dif1 = self.wanted_z - self.ori_z
             angle_dif1 = self.wanted_z - self.ori_z
             angle_dif2 = (0 - math.pi - self.ori_z) - (math.pi - self.wanted_z)
 
