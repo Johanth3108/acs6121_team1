@@ -4,11 +4,8 @@
   <arg name="y_pos" default="0.0"/>
   <arg name="z_pos" default="0.0"/>
 
-  <!-- <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_simulation.launch">
-  </include> -->
-
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/turtlebot3_stage_4.world"/>
+    <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/turtlebot3_simulation.world"/>
     <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
     <arg name="gui" value="true"/>
@@ -26,10 +23,8 @@
 
   <node pkg="map_server" type="map_saver" name="map_saver" args="-f $(find acs6121_team1)/map/map" output="screen" />
 
-  <!-- Launch custom node for map saving -->
-  <!-- <node pkg="acs6121_team1" type="map_saver_node.py"  name="map_saver_node" respawn="false" output="screen"/> -->
-
-  <node pkg="acs6121_team1" type="Avoider.py" name="explorer" output="screen" />
+  <node pkg="acs6121_team1" type="robot_pos.py" name="position_controller" output="screen" />
+  <node pkg="acs6121_team1" type="robot_move.py" name="robot_controller" output="screen" />
   
 </launch>
 
